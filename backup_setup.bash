@@ -2,6 +2,7 @@
 #Alunos Angelo Prebianca, Joao Machado, Marcos Renato
 #Projeto final de Administraçao de Sistemas
 #Script para gerar um backup de arquivos no linux
+
 origens=()
 Menu(){
     echo "Bem vindo ao backup de arquivos, selecione uma das opcoes a seguir"
@@ -16,7 +17,7 @@ Menu(){
         1) adcOrigem ;;
         2) rmvOrigem ;;
         3) setDestino ;;
-        4) freqBackup ;;
+        4) getInput ;;
         5) startBackup ;;
         6) echo "Backup cancelado" ; exit ;;
         *) echo "Opção inexistente." ; echo ; Menu ;;
@@ -80,7 +81,7 @@ setDestino(){
     readAndValidateDestino
 }
 
-#freqBackup(){}
+
 #startBackup(){}
 
 readAndValidateOrigem(){
@@ -149,4 +150,56 @@ listOrigens(){
     done
     echo "Digite 'm' para voltar ao menu"
 }
+
+
+
+# Função para solicitar e validar entrada do usuário
+freqBackup() {
+    local prompt="$1"
+    local var_name="$2"
+    local regex="$3"
+
+    while true; do
+        read -r -p "$prompt" input
+        input="${input#"${input%%[![:space:]]*}"}"   # Remove leading whitespace
+        input="${input%"${input##*[![:space:]]}"}"   # Remove trailing whitespace
+
+        if [[ $input =~ $regex ]]; then
+            eval "$var_name='$input'"
+            break
+        else
+            echo "Entrada inválida. Por favor, tente novamente."
+        fi
+    done
+}
+
+
+
+# Solicita as entradas do usuário
+getInput(){
+    echo "Bem-vindo ao agendador de tarefas do cron."
+    freqBackup "Digite o minuto (0-59 ou ): " minute '^([0-5]{0,1}[0-9]{1}|\*)$'
+    freqBackup "Digite a hora (0-23 ou *): " hour '^([0-9]|0[0-9]|1[0-9]|2[0-3]|\*)$'
+    freqBackup "Digite o dia do mês (1-31 ou *): " day_of_month '^([1-9]|0[1-9]|[12][0-9]|3[01]|\*)$'
+    freqBackup "Digite o mês (1-12 ou *): " month '^([1-9]|0[1-9]|1[0-2]|\*)$'
+    freqBackup "Digite o dia da semana (0-6 ou *): " day_of_week '^([0-6]|\*)$'
+    # Monta a string do cron
+    cron_schedule="$minute $hour $day_of_month $month $day_of_week"
+    echo "A string para o cron é: '$cron_schedule'"
+}
+
+
+
+
+
+# Solicita o comando a ser executado
+#read -r -p "Digite o comando a ser agendado: " command
+#command=$(echo "$command" | tr -d '\n')  # Remove a quebra de linha
+
+# Adiciona a tarefa ao crontab do usuário
+#(crontab -l; echo "$cron_schedule $command") | crontab -
+
+#echo "Tarefa agendada com sucesso."
+
+
 Menu
