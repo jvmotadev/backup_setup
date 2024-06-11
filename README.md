@@ -21,9 +21,9 @@ Final project for Systems Administration.
 ## Usage
 Run the script in a bash terminal to start the backup manager.
 
-\```bash
+```bash
 ./backup_script.sh
-\```
+```
 
 ### Menu Options
 1. **Add Source Directory**: Add one or more directories to the list of sources to be backed up.
