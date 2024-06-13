@@ -5,8 +5,8 @@ This script is designed to help manage file backups on a Linux system. It provid
 
 ### Authors
 - Angelo Prebianca
-- Joao Machado
-- Marcos Renato
+- JOAO VICTOR MOTA MACHADO
+- Marcos Renato Rocha de Medeiros
 
 ### Project
 Final project for Systems Administration.
